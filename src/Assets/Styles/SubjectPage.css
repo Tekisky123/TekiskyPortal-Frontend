@@ -1,0 +1,30 @@
+.subject-heading{
+    text-align: center;
+  
+}
+.subject-heading h4{
+    margin: 20px 0;
+}
+.icons{
+    font-size: 100px;
+    margin-top: 10px;
+}
+.icon1{
+    color: #422afb;
+}
+.icon2{
+    color: rgb(20, 227, 6);
+}
+.icon3{
+    color: red;
+}
+.icon4{
+    color: orange;
+}
+.icon5{
+    color: gray;
+}
+.icon-content{
+    display: flex !important;
+    flex-direction: column-reverse;
+}
