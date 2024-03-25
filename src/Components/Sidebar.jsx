@@ -11,7 +11,6 @@ function Sidebar() {
   const [activeTab, setActiveTab] = useState(null);
   const [isChecked, setIsChecked] = useState(true); // State to track checkbox status
   const location = useLocation();
-  //hi
 
   useEffect(() => {
     const activeTabFromStorage = localStorage.getItem("activeTab");
@@ -38,7 +37,7 @@ function Sidebar() {
       "/dashboard": 1,
       "/students": 2,
       "/another-route": 3,
-      "/sc": 4,
+      "/student-form": 4,
       "/scan": 5,
       "/ho": 6,
     };
@@ -83,7 +82,7 @@ function Sidebar() {
             <FaBookOpen className="icon" />{isChecked ? '' : 'Courses'}
           </div>
         </NavLink>
-        <NavLink to="/hi" activeClassName="active">
+        <NavLink to="/student-form" activeClassName="active">
           <div
             className={`nav-button ${activeTab === 4 ? "active" : ""}`}
             onClick={() => handleTabClick(4)}

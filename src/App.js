@@ -5,6 +5,7 @@ import Dashboard from "./Pages/Dashboard";
 import QRScanner from "./Pages/QRScanner";
 import StudentsTable from "./Pages/StudentsTable";
 import SubjectPage from "./Pages/SubjectPage";
+import StudentForm from "./Pages/StudentForm";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/scan" element={<QRScanner />} />
         <Route path="/subject" element={<SubjectPage />} />
         <Route path="/students" element={<StudentsTable students={students} />} />
+        <Route path="/student-form" element={<StudentForm/>}/>
       </Routes>
     </div>
   );
