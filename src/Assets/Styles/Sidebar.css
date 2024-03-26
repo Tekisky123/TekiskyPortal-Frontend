@@ -75,7 +75,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     overflow: hidden;
     user-select: none;
-    z-index: 999999;
+    z-index: 999;
   }
   
   #nav-bar hr {
@@ -265,7 +265,7 @@
 }
 
 #nav-toggle:not(:checked) ~ #nav-footer-toggle:checked + #nav-footer {
-  height: 30%;
+  
   min-height: 54px;
 }
 
