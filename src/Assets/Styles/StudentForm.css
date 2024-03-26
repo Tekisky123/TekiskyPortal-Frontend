@@ -347,7 +347,7 @@ fieldset[disabled] .form-control {
 
 
 @media (max-width: 896px){
-  .list-inline{
+  /* .list-inline{
     padding: 10px;
     align-items: end;
     width: 200px;
@@ -358,40 +358,45 @@ fieldset[disabled] .form-control {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+  } */
 }
 
 @media (max-width: 844px) {
-  .list-inline {
+  /* .list-inline {
     padding: 20px;
     width: 200px;
   }
   .list-inline li{
     display: inline-block;
-  }
+  } */
 }
 
 @media (max-width: 653px){
-  .list-inline{
-    /* justify-content: flex-end; */
-    /* flex-direction: column-reverse; */
-    width: 300px;
+  /* .list-inline{
+    padding: 40px;
+    align-items: end; */
+    /* width: 200px; */
+    /* margin-left: 100px; */
+    /* display: inline-block;
   }
   .list-inline li{
     display: inline-block;
-    margin: 10px 0px 10px 10px;
-    
-    
-  }
+  } */
 }
 @media (max-width: 490px){
-  .list-inline{
-    /* display: inline-block;
-    justify-content: flex-end;
-    flex-direction: column-reverse; */
-    width: 250px;
+  /* .list-inline{
+    padding: 10px;
+    align-items: end;
+    width: 200px;
+    margin-left: 100px;
+    display: inline-block;
   }
-  .list-inline li #inline-btn{
+  .list-inline li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } */
+  /* .list-inline li #inline-btn{
     margin: 10px 0px 10px 10px;
     padding: 10px;
     display: flex;
@@ -402,6 +407,17 @@ fieldset[disabled] .form-control {
     margin-left: 30px;
     padding: 10px;
     width: 200px;
+  } */
+}
+
+@media (min-width: 339px){
+  .list-inline li{
+    display: inline-block;
+  }
+}
+@media (min-width: 285px){
+  .list-inline li{
+    display: inline-block;
   }
 }
 
