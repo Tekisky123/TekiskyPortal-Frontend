@@ -4,35 +4,13 @@ import { NavLink } from "react-router-dom";
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import axios from "axios";
+import Base_URL from "../Common/Apis";
 
 const StudentForm = () => {
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [selectClass, setSelectClass] = useState(null);
 
-  const handleNextStep = (e) => {
-    setStep(step + 1);
-    e.preventDefault();
-
-    console.log("next step");
-    console.log(inputData);
-
-    // const {name, value} = e.target;
-
-    // if(name === "studentName"){
-
-    // }
-  };
-
-  const handlePrevStep = () => {
-    setStep(step - 1);
-
-    console.log("back step");
-  };
-
-  // const handlestudentName = useRef();
-
-  // const url = "";
   const [inputData, setInputData] = useState({
     studentName: "",
     studentFather: "",
@@ -57,27 +35,40 @@ const StudentForm = () => {
     college: "",
   });
 
-  console.log(inputData);
+  //next step function
+  const handleNextStep = (e) => {
+    setStep(step + 1);
+    e.preventDefault();
 
+    console.log("next step");
+    console.log(inputData);
+  };
+
+  //back step function
+  const handlePrevStep = () => {
+    setStep(step - 1);
+
+    console.log("back step");
+  };
+
+  //Form Fields handling
   const handleChange = (event) => {
     // const {name, value} = event.target;
     // setInputData({...inputData, [name] : value})
     // console.log(inputData)
-    const newData = { ...inputData };
     // newData[event.target.id] = event.target.value;
+
+    const newData = { ...inputData };
     newData[event.target.name] = event.target.value;
     setInputData(newData);
     console.log(newData);
-};
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
   //Select classes side
-
-  
-
   const handleClassChange = (event) => {
     setSelectClass(event.target.value);
   };
@@ -192,7 +183,7 @@ const StudentForm = () => {
                   <input
                     class="form-control"
                     type="text"
-                    name="collegName"
+                    name="collegeName"
                     placeholder=""
                     id="collegeName"
                     onChange={handleChange}
@@ -337,6 +328,11 @@ const StudentForm = () => {
     event.preventDefault();
 
     console.log("add course");
+
+    setSelectClass(renderLabel());
+
+    console.log(inputData)
+
   };
 
   const previewForm = () => {
@@ -361,7 +357,6 @@ const StudentForm = () => {
               {errors.studentName && (
                 <span style={{ color: "red" }}>{errors.studentName}</span>
               )}
-              {/* <p style={{color: "blue"}}>{errors.studentName}</p> */}
             </div>
           </div>
           <div className="col-md-6">
@@ -649,7 +644,6 @@ const StudentForm = () => {
     document.body.removeChild(a);
   };
 
-
   const fullPayload = {
     courseDetails: {
       courseName: "Computer Science", // This could be dynamic if you have a field for selecting course name
@@ -691,9 +685,9 @@ const StudentForm = () => {
   const handlePreviewSubmit = (e) => {
     e.preventDefault();
     // console.log(newData);
-    axios.post("https://tekiskyportal-backend.onrender.com/student/create", {
-      fullPayload,
-    });
+    // axios.post(`${Base_URL}student/create`, {
+    //   fullPayload,
+    // });
 
     console.log("Submitted");
     console.log(inputData);
@@ -705,14 +699,12 @@ const StudentForm = () => {
     if (inputData.studentName.trim() === "") {
       newErrors.studentName = "Name is required";
       valid = false;
-      console.log(newErrors);
     } else {
       newErrors.studentName = "";
     }
     if (inputData.studentFather.trim() === "") {
       newErrors.studentFather = "Father Name is required";
       valid = false;
-      console.log(newErrors);
     } else {
       newErrors.studentFather = "";
     }
@@ -837,6 +829,10 @@ const StudentForm = () => {
     if (valid) {
       console.log("Form Preview data:", inputData);
       alert("Submitted Successfully....");
+
+      axios.post(`${Base_URL}student/create`, {
+        fullPayload,
+      });
 
       //   setInputData({
       //     studentName: '',
