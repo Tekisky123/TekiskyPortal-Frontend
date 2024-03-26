@@ -6,6 +6,7 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import { FaAddressCard, FaBookOpen } from "react-icons/fa";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { LuLogIn } from "react-icons/lu";
+import { FaUserShield } from "react-icons/fa6";
 
 function Sidebar() {
   const [activeTab, setActiveTab] = useState(null);
@@ -36,7 +37,7 @@ function Sidebar() {
     const pathToTabMap = {
       "/dashboard": 1,
       "/students": 2,
-      "/another-route": 3,
+      "/users": 3,
       "/student-form": 4,
       "/scan": 5,
       "/ho": 6,
@@ -74,12 +75,12 @@ function Sidebar() {
             <BsFillPeopleFill className="icon" />{isChecked ? '' : 'Students'}
           </div>
         </NavLink>
-        <NavLink to="/another-route" activeClassName="active">
+        <NavLink to="/users" activeClassName="active">
           <div
             className={`nav-button ${activeTab === 3 ? "active" : ""}`}
             onClick={() => handleTabClick(3)}
           >
-            <FaBookOpen className="icon" />{isChecked ? '' : 'Courses'}
+            <FaUserShield className="icon" />{isChecked ? '' : 'Users'}
           </div>
         </NavLink>
         <NavLink to="/student-form" activeClassName="active">

@@ -1,2 +1,23 @@
 
+.qr-code-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .qr-code-heading {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .qr-code-image {
+    width: 300px;
+    /* margin-top: 20px; */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .loading-message {
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+  }
   
