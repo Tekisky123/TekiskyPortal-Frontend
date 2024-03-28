@@ -43,10 +43,12 @@ button:focus,
   padding-bottom: 60px; */
   background-color: white;
   border-radius: 20px;
-    margin: 100px;
+  margin: 100px;
+  margin: 70px 100px 20px 100px;
     /* margin-left: 150px; */
-    padding: 60px;
+  padding: 60px;
     /* position: relative; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 1200px) {
@@ -130,6 +132,21 @@ button:focus,
   top: 15px;
   z-index: 1;
 }
+.connecting-line-step1-2{
+  height: 3px;
+  background-color: green;
+  position: absolute;
+  width: 25%;
+  margin: 0 auto;
+  left: 0px;
+  right: 360px;
+  top: 15px;
+  z-index: 1;
+}
+
+.connecting-line .next-step::after{
+  background-color: #0e214b;
+}
 
 .wizard .nav-tabs > li.active > a,
 .wizard .nav-tabs > li.active > a:hover,
@@ -156,6 +173,7 @@ span.round-tab {
   font-weight: 500;
   border: 1px solid #ddd;
 }
+
 span.round-tab i {
   color: #555555;
 }
@@ -164,6 +182,7 @@ span.round-tab i {
   color: #fff;
   border-color: #422afb;
 }
+
 .wizard li.active span.round-tab i {
   color: #5bc0de;
 }
