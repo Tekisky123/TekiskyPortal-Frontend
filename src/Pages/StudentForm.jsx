@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../Assets/Styles/StudentForm.css";
 import { NavLink } from "react-router-dom";
 import { FaCloudDownloadAlt } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
+// import { FaPlus } from "react-icons/fa";
 // import { FaArrowDown } from "react-icons/fa";
 // import { FaLongArrowAltDown } from "react-icons/fa";
 import axios from "axios";
@@ -12,12 +12,12 @@ import Swal from "sweetalert2";
 const StudentForm = () => {
   const [step, setStep] = useState(1);
   const [validErrors, setValidErrors] = useState({});
-  const [selectClass, setSelectClass] = useState(null);
-  const [errors,setErrors] = useState({});
+  // const [selectClass, setSelectClass] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const handleStepChange = (newStep) => {
-    setStep(newStep)
-  }
+    setStep(newStep);
+  };
 
   const [inputData, setInputData] = useState({
     studentName: "",
@@ -42,12 +42,13 @@ const StudentForm = () => {
     collegeSubject: "",
     collegePercentage: "",
     college: "",
+    twelfththMarksheet: "",
   });
 
   //next step function
   const handleNextStep = (e) => {
-    // setStep(step + 1);
     e.preventDefault();
+    setStep(step + 1);
 
     console.log("next step");
     console.log(inputData);
@@ -62,7 +63,7 @@ const StudentForm = () => {
     const isValid = validateForm();
     if (isValid) {
       // Proceed to the next step
-      alert("Next Step")
+      alert("Next Step");
       // For example:
       setStep(step + 1);
     } else {
@@ -112,39 +113,36 @@ const StudentForm = () => {
       validErrors.city = "city's name is required";
       isValid = false;
     }
-    
-    if(!inputData.mobile.trim() === ""){
+
+    if (!inputData.mobile.trim() === "") {
       validErrors.mobile = "Mobile no. is required";
       isValid = false;
-    }
-    else if (!/\S+@\S+\.\S+/.test(inputData.mobile)) {
+    } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.mobile)) {
       validErrors.mobile = "Mobile no. is invalid";
     }
 
-    if(!inputData.parentMobile.trim() === ""){
+    if (!inputData.parentMobile.trim() === "") {
       validErrors.parentMobile = "Mobile no. is required";
       isValid = false;
-    }
-    else if (!/\S+@\S+\.\S+/.test(inputData.parentMobile)) {
+    } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.parentMobile)) {
       validErrors.parentMobile = "Mobile no. is invalid";
     }
 
-    if(!inputData.email.trim() === ""){
+    if (!inputData.email.trim() === "") {
       validErrors.email = "email is required";
       isValid = false;
-    }
-    else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
       validErrors.email = "Email is invalid";
     }
 
-    if(!inputData.school.trim()){
+    if (!inputData.school.trim()) {
       validErrors.school = "School Name is required";
       isValid = false;
     }
 
     setValidErrors(validErrors);
     return isValid;
-};
+  };
 
   //back step function
   const handlePrevStep = () => {
@@ -155,7 +153,7 @@ const StudentForm = () => {
 
   //Form Fields handling
   const handleChange = (event) => {
-    const {name, value} = event.target;
+    const { name, value } = event.target;
     // setInputData({...inputData, [name] : value})
     // console.log(inputData)
     // newData[event.target.id] = event.target.value;
@@ -165,23 +163,21 @@ const StudentForm = () => {
     // setInputData(newData);
     // console.log(newData);
 
-    const validate = 
-    name === "mobile"
-    ? value.replace(/[^0-9]/g, "").substr(0,10)
-    : value && 
-    name === "parentMobile"
-    ? value.replace(/[^0-9]/g, "").substr(0,10)
-    : value &&
-    name === "studentName"
-    ? value.replace(/[^a-zA-Z\s]/g, "").substr(0, 40)
-    : value &&
-    name === "studentFather"
-    ? value.replace(/[^a-zA-Z\s]/g, "").substr(0, 40)
-    : value
-    
+    const validate =
+      name === "mobile"
+        ? value.replace(/[^0-9]/g, "").substr(0, 10)
+        : value && name === "parentMobile"
+        ? value.replace(/[^0-9]/g, "").substr(0, 10)
+        : value && name === "studentName"
+        ? value.replace(/[^a-zA-Z\s]/g, "").substr(0, 40)
+        : value && name === "studentFather"
+        ? value.replace(/[^a-zA-Z\s]/g, "").substr(0, 40)
+        : value;
+
     setInputData({
-      ...inputData , [name] : validate,
-    })
+      ...inputData,
+      [name]: validate,
+    });
   };
 
   const handleSubmit = (event) => {
@@ -189,296 +185,295 @@ const StudentForm = () => {
   };
 
   //Select classes side
-  const handleClassChange = (event) => {
-    setSelectClass(event.target.value);
-  };
+  // const handleClassChange = (event) => {
+  //   setSelectClass(event.target.value);
+  // };
 
-  const renderLabel = () => {
-    switch (selectClass) {
-      case "10th":
-        return (
-          <>
-            <div className="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>School Name *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="school"
-                    placeholder=""
-                    id="school"
-                    onChange={handleChange}
-                    value={inputData.school}
-                  />
-                </div>
-                {validErrors.school && (
-                  <span style={{color: "red"}}>{validErrors.school}</span>
-                )}
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Board *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="board"
-                    id="board"
-                    placeholder=""
-                    onChange={handleChange}
-                    value={inputData.board}
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label htmlFor="">Passing Year *</label>
-                  <input
-                    type="text"
-                    name="passingyear"
-                    id="passingyear"
-                    placeholder=""
-                    className="form-control"
-                    onChange={handleChange}
-                    value={inputData.passingyear}
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Subject *</label>
-                  <select
-                    name="subject"
-                    id="subject"
-                    className="form-control"
-                    onChange={handleChange}
-                    value={inputData.subject}
-                  >
-                    <option value="other" selected>
-                      --select--
-                    </option>
-                    <option value="Math">Mathematics</option>
-                    <option value="Science">Science</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Percentage *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="percentage"
-                    placeholder=""
-                    id="percentage"
-                    onChange={handleChange}
-                    value={inputData.percentage}
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>10th Marksheet *</label>
-                  <input
-                    class="form-control"
-                    type="file"
-                    name="tenthMarksheet"
-                    placeholder=""
-                    id="tenthMarksheet"
-                    onChange={handleChange}
-                    value={inputData.tenthMarksheet}
-                  />
-                </div>
-              </div>
-              <div className="col-md-6 add-btn-main">
-                <div className="form-group">
-                  <button
-                    type="submit"
-                    onClick={handleAddCourse}
-                    className="mt-4 text-align-center Add-btn"
-                  >
-                    <FaPlus /> ADD Class
-                  </button>
-                </div>
-              </div>
-            </div>
-            {/* <div className='col-md-6'>
-                        <button type="button" className="default-btn Add-btn" onClick={handleAddCourse} value={selectClass} onChange={handleClassChange} id='inline-btn'>Add Class</button>
-                    </div> */}
-          </>
-        );
-      case "12th":
-        return (
-          <>
-            <div className="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>College Name *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="collegeName"
-                    placeholder=""
-                    id="collegeName"
-                    onChange={handleChange}
-                    value={inputData.collegeName}
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Board *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="collegeBoard"
-                    placeholder=""
-                    id="collegeBoard"
-                    onChange={handleChange}
-                    value={inputData.collegeBoard}
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label htmlFor="">Passing Year *</label>
-                  <input
-                    type="text"
-                    name="collegePassingYear"
-                    id="collegePassingYear"
-                    placeholder=""
-                    className="form-control"
-                    onChange={handleChange}
-                    value={inputData.collegePassingYear}
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Subject *</label>
-                  <select
-                    name="collegeSubject"
-                    id="collegeSubject"
-                    className="form-control"
-                    onChange={handleChange}
-                    value={inputData.collegeSubject}
-                  >
-                    <option value="NaN" selected>
-                      --select--
-                    </option>
-                    <option value="PCM">Physics/Chemistry/Math</option>
-                    <option value="chem">Chemistry</option>
-                    <option value="math">Mathematics</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Percentage *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="collegePercentage"
-                    id="collegePercentage"
-                    placeholder=""
-                    onChange={handleChange}
-                    value={inputData.collegePercentage}
-                  />
-                </div>
-              </div>
-              <div className="col-md-6 add-btn-main">
-                <div className="form-group">
-                  <button
-                    type="submit"
-                    onClick={handleAddCourse}
-                    className="mt-4 text-align-center Add-btn"
-                  >
-                    <FaPlus /> ADD Class
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
-        );
-      case "UG":
-        return (
-          <>
-            <div className="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>College Name *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="name"
-                    placeholder=""
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>University *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="name"
-                    placeholder=""
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label htmlFor="">Passing Year *</label>
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    placeholder=""
-                    className="form-control"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Subject *</label>
-                  {/* <select name="" id="" className='form-control'>
-                                <option value="" selected>--select--</option>
-                                <option value="">Physics</option>
-                                <option value="">Chemistry</option>
-                                <option value="">Mathematics</option>
-                            </select> */}
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Percentage *</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="name"
-                    placeholder=""
-                  />
-                </div>
-              </div>
-            </div>
-          </>
-        );
-      default:
-        return null;
-    }
-  };
+  // const renderLabel = () => {
+  //   switch (selectClass) {
+  //     case "10th":
+  //       return (
+  //         <>
+  //           <div className="row">
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>School Name *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="school"
+  //                   placeholder=""
+  //                   id="school"
+  //                   onChange={handleChange}
+  //                   value={inputData.school}
+  //                 />
+  //               </div>
+  //               {validErrors.school && (
+  //                 <span style={{ color: "red" }}>{validErrors.school}</span>
+  //               )}
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>Board *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="board"
+  //                   id="board"
+  //                   placeholder=""
+  //                   onChange={handleChange}
+  //                   value={inputData.board}
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label htmlFor="">Passing Year *</label>
+  //                 <input
+  //                   type="text"
+  //                   name="passingyear"
+  //                   id="passingyear"
+  //                   placeholder=""
+  //                   className="form-control"
+  //                   onChange={handleChange}
+  //                   value={inputData.passingyear}
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>Subject *</label>
+  //                 <select
+  //                   name="subject"
+  //                   id="subject"
+  //                   className="form-control"
+  //                   onChange={handleChange}
+  //                   value={inputData.subject}
+  //                 >
+  //                   <option value="other" selected>
+  //                     --select--
+  //                   </option>
+  //                   <option value="Math">Mathematics</option>
+  //                   <option value="Science">Science</option>
+  //                 </select>
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>Percentage *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="percentage"
+  //                   placeholder=""
+  //                   id="percentage"
+  //                   onChange={handleChange}
+  //                   value={inputData.percentage}
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>10th Marksheet *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="file"
+  //                   name="tenthMarksheet"
+  //                   placeholder=""
+  //                   id="tenthMarksheet"
+  //                   onChange={handleChange}
+  //                   value={inputData.tenthMarksheet}
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div className="col-md-6 add-btn-main">
+  //               <div className="form-group">
+  //                 <button
+  //                   type="submit"
+  //                   onClick={handleAddCourse}
+  //                   className="mt-4 text-align-center Add-btn"
+  //                 >
+  //                   <FaPlus /> ADD Class
+  //                 </button>
+  //               </div>
+  //             </div>
+  //           </div>
+  //           {/* <div className='col-md-6'>
+  //                       <button type="button" className="default-btn Add-btn" onClick={handleAddCourse} value={selectClass} onChange={handleClassChange} id='inline-btn'>Add Class</button>
+  //                   </div> */}
+  //         </>
+  //       );
+  //     case "12th":
+  //       return (
+  //         <>
+  //           <div className="row">
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>College Name *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="collegeName"
+  //                   placeholder=""
+  //                   id="collegeName"
+  //                   onChange={handleChange}
+  //                   value={inputData.collegeName}
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>Board *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="collegeBoard"
+  //                   placeholder=""
+  //                   id="collegeBoard"
+  //                   onChange={handleChange}
+  //                   value={inputData.collegeBoard}
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label htmlFor="">Passing Year *</label>
+  //                 <input
+  //                   type="text"
+  //                   name="collegePassingYear"
+  //                   id="collegePassingYear"
+  //                   placeholder=""
+  //                   className="form-control"
+  //                   onChange={handleChange}
+  //                   value={inputData.collegePassingYear}
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>Subject *</label>
+  //                 <select
+  //                   name="collegeSubject"
+  //                   id="collegeSubject"
+  //                   className="form-control"
+  //                   onChange={handleChange}
+  //                   value={inputData.collegeSubject}
+  //                 >
+  //                   <option value="NaN" selected>
+  //                     --select--
+  //                   </option>
+  //                   <option value="PCM">Physics/Chemistry/Math</option>
+  //                   <option value="chem">Chemistry</option>
+  //                   <option value="math">Mathematics</option>
+  //                 </select>
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>Percentage *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="collegePercentage"
+  //                   id="collegePercentage"
+  //                   placeholder=""
+  //                   onChange={handleChange}
+  //                   value={inputData.collegePercentage}
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div className="col-md-6 add-btn-main">
+  //               <div className="form-group">
+  //                 <button
+  //                   type="submit"
+  //                   onClick={handleAddCourse}
+  //                   className="mt-4 text-align-center Add-btn"
+  //                 >
+  //                   <FaPlus /> ADD Class
+  //                 </button>
+  //               </div>
+  //             </div>
+  //           </div>
+  //         </>
+  //       );
+  //     case "UG":
+  //       return (
+  //         <>
+  //           <div className="row">
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>College Name *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="name"
+  //                   placeholder=""
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>University *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="name"
+  //                   placeholder=""
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label htmlFor="">Passing Year *</label>
+  //                 <input
+  //                   type="text"
+  //                   name=""
+  //                   id=""
+  //                   placeholder=""
+  //                   className="form-control"
+  //                 />
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>Subject *</label>
+  //                 {/* <select name="" id="" className='form-control'>
+  //                               <option value="" selected>--select--</option>
+  //                               <option value="">Physics</option>
+  //                               <option value="">Chemistry</option>
+  //                               <option value="">Mathematics</option>
+  //                           </select> */}
+  //               </div>
+  //             </div>
+  //             <div class="col-md-6">
+  //               <div class="form-group">
+  //                 <label>Percentage *</label>
+  //                 <input
+  //                   class="form-control"
+  //                   type="text"
+  //                   name="name"
+  //                   placeholder=""
+  //                 />
+  //               </div>
+  //             </div>
+  //           </div>
+  //         </>
+  //       );
+  //     default:
+  //       return null;
+  //   }
+  // };
 
-  const handleAddCourse = (event) => {
-    // setSelectClass([...selectClass, { class: inputData.class, school: "", board: "", passingyear: "", subject: "", percentage: "" }]);
-    event.preventDefault();
+  // const handleAddCourse = (event) => {
+  //   // setSelectClass([...selectClass, { class: inputData.class, school: "", board: "", passingyear: "", subject: "", percentage: "" }]);
+  //   event.preventDefault();
 
-    console.log("add course");
+  //   console.log("add course");
 
-    setSelectClass(renderLabel());
+  //   // setSelectClass(renderLabel());
 
-    console.log(inputData)
-
-  };
+  //   console.log(inputData);
+  // };
 
   const previewForm = () => {
     return (
@@ -626,157 +621,156 @@ const StudentForm = () => {
               )}
             </div>
           </div>
-                {/* 10th details */}
-            <div className="col-md-12">
-              <div className="form-group">
-                <div className="text-color mt-4">
-                  <h5>10th Details :</h5>
-                </div>
+          {/* 10th details */}
+          <div className="col-md-12">
+            <div className="form-group">
+              <div className="text-color mt-4">
+                <h5>10th Details :</h5>
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">School Name :</label>
-                <input
-                  type="text"
-                  value={inputData.school}
-                  className="form-control"
-                />
-                {errors.school && (
-                  <span style={{ color: "red" }}>{errors.school}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">School Name :</label>
+              <input
+                type="text"
+                value={inputData.school}
+                className="form-control"
+              />
+              {errors.school && (
+                <span style={{ color: "red" }}>{errors.school}</span>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Board :</label>
-                <input
-                  type="text"
-                  value={inputData.board}
-                  className="form-control"
-                />
-                {errors.board && (
-                  <span style={{ color: "red" }}>{errors.board}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Board :</label>
+              <input
+                type="text"
+                value={inputData.board}
+                className="form-control"
+              />
+              {errors.board && (
+                <span style={{ color: "red" }}>{errors.board}</span>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Passing Year :</label>
-                <input
-                  type="text"
-                  value={inputData.passingyear}
-                  className="form-control"
-                />
-                {errors.passingyear && (
-                  <span style={{ color: "red" }}>{errors.passingyear}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Passing Year :</label>
+              <input
+                type="text"
+                value={inputData.passingyear}
+                className="form-control"
+              />
+              {errors.passingyear && (
+                <span style={{ color: "red" }}>{errors.passingyear}</span>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Subject :</label>
-                <input
-                  type="text"
-                  value={inputData.subject}
-                  className="form-control"
-                />
-                {errors.subject && (
-                  <span style={{ color: "red" }}>{errors.subject}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Subject :</label>
+              <input
+                type="text"
+                value={inputData.subject}
+                className="form-control"
+              />
+              {errors.subject && (
+                <span style={{ color: "red" }}>{errors.subject}</span>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Percentage :</label>
-                <input
-                  type="text"
-                  value={inputData.percentage}
-                  className="form-control"
-                />
-                {errors.percentage && (
-                  <span style={{ color: "red" }}>{errors.percentage}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Percentage :</label>
+              <input
+                type="text"
+                value={inputData.percentage}
+                className="form-control"
+              />
+              {errors.percentage && (
+                <span style={{ color: "red" }}>{errors.percentage}</span>
+              )}
             </div>
+          </div>
 
           {/* 12th preview form */}
 
-            <div className="col-md-12">
-              <div className="form-group">
-                <div className="text-color mt-4">
-                  <h5>12th Details :</h5>
-                </div>
+          <div className="col-md-12">
+            <div className="form-group">
+              <div className="text-color mt-4">
+                <h5>12th Details :</h5>
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">College Name :</label>
-                <input
-                  type="text"
-                  value={inputData.collegeName}
-                  className="form-control"
-                />
-                {errors.collegeName && (
-                  <span style={{ color: "red" }}>{errors.collegeName}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">College Name :</label>
+              <input
+                type="text"
+                value={inputData.collegeName}
+                className="form-control"
+              />
+              {errors.collegeName && (
+                <span style={{ color: "red" }}>{errors.collegeName}</span>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Board :</label>
-                <input
-                  type="text"
-                  value={inputData.collegeBoard}
-                  className="form-control"
-                />
-                {errors.collegeBoard && (
-                  <span style={{ color: "red" }}>{errors.collegeBoard}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Board :</label>
+              <input
+                type="text"
+                value={inputData.collegeBoard}
+                className="form-control"
+              />
+              {errors.collegeBoard && (
+                <span style={{ color: "red" }}>{errors.collegeBoard}</span>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Passing year :</label>
-                <input
-                  type="text"
-                  value={inputData.collegePassingYear}
-                  className="form-control"
-                />
-                {errors.collegePassingYear && (
-                  <span style={{ color: "red" }}>
-                    {errors.collegePassingYear}
-                  </span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Passing year :</label>
+              <input
+                type="text"
+                value={inputData.collegePassingYear}
+                className="form-control"
+              />
+              {errors.collegePassingYear && (
+                <span style={{ color: "red" }}>
+                  {errors.collegePassingYear}
+                </span>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Subject :</label>
-                <input
-                  type="text"
-                  value={inputData.collegeSubject}
-                  className="form-control"
-                />
-                {errors.collegeSubject && (
-                  <span style={{ color: "red" }}>{errors.collegeSubject}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Subject :</label>
+              <input
+                type="text"
+                value={inputData.collegeSubject}
+                className="form-control"
+              />
+              {errors.collegeSubject && (
+                <span style={{ color: "red" }}>{errors.collegeSubject}</span>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Percentage :</label>
-                <input
-                  type="text"
-                  value={inputData.collegePercentage}
-                  className="form-control"
-                />
-                {errors.collegePercentage && (
-                  <span style={{ color: "red" }}>{errors.collegePercentage}</span>
-                )}
-              </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Percentage :</label>
+              <input
+                type="text"
+                value={inputData.collegePercentage}
+                className="form-control"
+              />
+              {errors.collegePercentage && (
+                <span style={{ color: "red" }}>{errors.collegePercentage}</span>
+              )}
             </div>
-  
+          </div>
         </div>
         <div className="col-md-6">
           <div className="form-group">
@@ -908,99 +902,120 @@ const StudentForm = () => {
       newErrors.city = "";
     }
 
+    // if (inputData.mobile.trim() === "") {
+    //   newErrors.mobile = "Mobile no. is required";
+    //   valid = false;
+    // } else {
+    //   newErrors.mobile = "";
+    // }
+
     if (inputData.mobile.trim() === "") {
       newErrors.mobile = "Mobile no. is required";
       valid = false;
-    } else {
+    } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.mobile)) {
+      newErrors.mobile = "Mobile no. is invalid";
+      valid = false;
+    } else{
       newErrors.mobile = "";
     }
+
+    // if (inputData.parentMobile.trim() === "") {
+    //   newErrors.parentMobile = "Mobile no. is required";
+    //   valid = false;
+    // } else {
+    //   newErrors.parentMobile = "";
+    // }
 
     if (inputData.parentMobile.trim() === "") {
       newErrors.parentMobile = "Mobile no. is required";
       valid = false;
-    } else {
+    } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.parentMobile)) {
+      newErrors.parentMobile = "Mobile no. is invalid";
+      valid = false;
+    } else{
       newErrors.parentMobile = "";
     }
 
-    // if(inputData.email.trim() === ""){
-    //   newErrors.email = "email is required";
-    //   valid = true;
-    // }
-    // else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
-    //   newErrors.email = "Email is invalid";
-    // }
-
-    if (inputData.email.trim() === "") {
-      newErrors.email = "Email is required";
+    if(inputData.email.trim() === ""){
+      newErrors.email = "email is required";
       valid = false;
-    } else {
+    } else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
+      newErrors.email = "Email is invalid";
+      valid = false;
+    } else{
       newErrors.email = "";
     }
 
-    //10th details
-      if (inputData.school.trim() === "") {
-        newErrors.school = "School Name is required";
-        valid = false;
-      } else {
-        newErrors.school = "";
-      }
-      if (inputData.board.trim() === "") {
-        newErrors.board = "Board is required";
-        valid = false;
-      } else {
-        newErrors.board = "";
-      }
-      if (inputData.passingyear.trim() === "") {
-        newErrors.passingyear = "Passing year is required";
-        valid = false;
-      } else {
-        newErrors.passingyear = "";
-      }
-      if (inputData.subject.trim() === "") {
-        newErrors.subject = "select subject";
-        valid = false;
-      } else {
-        newErrors.subject = "";
-      }
-      if (inputData.percentage.trim() === "") {
-        newErrors.percentage = "Percentage is required (%)";
-        valid = false;
-      } else {
-        newErrors.percentage = "";
-      }
+    // if (inputData.email.trim() === "") {
+    //   newErrors.email = "Email is required";
+    //   valid = false;
+    // } else {
+    //   newErrors.email = "";
+    // }
 
+    //10th details
+    if (inputData.school.trim() === "") {
+      newErrors.school = "School Name is required";
+      valid = false;
+    } else {
+      newErrors.school = "";
+    }
+    if (inputData.board.trim() === "") {
+      newErrors.board = "Board is required";
+      valid = false;
+    } else {
+      newErrors.board = "";
+    }
+    if (inputData.passingyear.trim() === "") {
+      newErrors.passingyear = "Passing year is required";
+      valid = false;
+    } else {
+      newErrors.passingyear = "";
+    }
+    if (inputData.subject.trim() === "") {
+      newErrors.subject = "select subject";
+      valid = false;
+    } else {
+      newErrors.subject = "";
+    }
+    if (inputData.percentage.trim() === "") {
+      newErrors.percentage = "Percentage is required (%)";
+      valid = false;
+    } else {
+      newErrors.percentage = "";
+    }
 
     //12th details
-      if (inputData.collegeName.trim() === "") {
-        newErrors.collegeName = "College Name is required";
-        valid = false;
-      } else {
-        newErrors.collegeName = "";
-      }
-      if (inputData.collegeBoard.trim() === "") {
-        newErrors.collegeBoard = "Board is required";
-        valid = false;
-      } else {
-        newErrors.collegeBoard = "";
-      }
-      if (inputData.collegePassingYear.trim() === "") {
-        newErrors.collegePassingYear = "Passing year is required";
-        valid = false;
-      } else {
-        newErrors.collegePassingYear = "";
-      }
-      if (inputData.collegeSubject.trim() === "") {
-        newErrors.collegeSubject = "select subject";
-        valid = false;
-      } else {
-        newErrors.collegeSubject = "";
-      }
-      if (inputData.collegePercentage.trim() === "") {
-        newErrors.collegePercentage = "Percentage is required (%)";
-        valid = false;
-      } else {
-        newErrors.collegePercentage = "";
-      }
+    if (inputData.collegeName.trim() === "") {
+      newErrors.collegeName = "College Name is required";
+      valid = false;
+    } else {
+      newErrors.collegeName = "";
+    }
+    if (inputData.collegeBoard.trim() === "") {
+      newErrors.collegeBoard = "Board is required";
+      valid = false;
+    } else {
+      newErrors.collegeBoard = "";
+    }
+    if (inputData.collegePassingYear.trim() === "") {
+      newErrors.collegePassingYear = "Passing year is required";
+      valid = false;
+    } else {
+      newErrors.collegePassingYear = "";
+    }
+    if (inputData.collegeSubject.trim() === "") {
+      newErrors.collegeSubject = "select subject";
+      valid = false;
+    } else {
+      newErrors.collegeSubject = "";
+    }
+    if (inputData.collegePercentage.trim() === "") {
+      newErrors.collegePercentage = "Percentage is required (%)";
+      valid = false;
+    } else {
+      newErrors.collegePercentage = "";
+    }
 
     setErrors(newErrors);
 
@@ -1010,14 +1025,16 @@ const StudentForm = () => {
       Swal.fire({
         title: "success",
         text: "Student Data submitted successfully",
-        icon: "success"
+        icon: "success",
       });
 
-      axios.post(`${Base_URL}student/create`, {
-        fullPayload,
-      }).then((res)=>{
-        console.log(res)
-      });
+      axios
+        .post(`${Base_URL}student/create`, {
+          fullPayload,
+        })
+        .then((res) => {
+          console.log(res);
+        });
 
       //   setInputData({
       //     studentName: '',
@@ -1027,7 +1044,7 @@ const StudentForm = () => {
       Swal.fire({
         title: "error",
         text: "All Fields are required!!",
-        icon: "error"
+        icon: "error",
       });
     }
     // else {
@@ -1055,7 +1072,7 @@ const StudentForm = () => {
                       aria-controls="step1"
                       role="tab"
                       aria-expanded="true"
-                      onClick={()=>handleStepChange(1)}
+                      onClick={() => handleStepChange(1)}
                     >
                       <span className="round-tab">1</span> <i>Step 1</i>
                     </NavLink>
@@ -1070,7 +1087,7 @@ const StudentForm = () => {
                       aria-controls="step2"
                       role="tab"
                       aria-expanded="false"
-                      onClick={()=>handleStepChange(2)}
+                      onClick={() => handleStepChange(2)}
                     >
                       <span className="round-tab">2</span> <i>Step 2</i>
                     </NavLink>
@@ -1084,7 +1101,7 @@ const StudentForm = () => {
                       data-toggle="tab"
                       aria-controls="step3"
                       role="tab"
-                      onClick={()=>handleStepChange(3)}
+                      onClick={() => handleStepChange(3)}
                     >
                       <span className="round-tab">3</span> <i>Step 3</i>
                     </NavLink>
@@ -1098,7 +1115,7 @@ const StudentForm = () => {
                       data-toggle="tab"
                       aria-controls="step4"
                       role="tab"
-                      onClick={()=>handleStepChange(4)}
+                      onClick={() => handleStepChange(4)}
                     >
                       <span className="round-tab">4</span> <i>Step 4</i>
                     </NavLink>
@@ -1131,9 +1148,11 @@ const StudentForm = () => {
                               value={inputData.studentName}
                               required
                             />
-                          {validErrors.studentName && (
-                            <span style={{ color: "red" }}>{validErrors.studentName}</span>
-                          )}
+                            {validErrors.studentName && (
+                              <span style={{ color: "red" }}>
+                                {validErrors.studentName}
+                              </span>
+                            )}
                             {/* <p className='text-danger' ref={handlestudentName}></p> */}
                           </div>
                         </div>
@@ -1151,8 +1170,10 @@ const StudentForm = () => {
                               required
                             />
                             {validErrors.studentFather && (
-                            <span style={{ color: "red" }}>{validErrors.studentFather}</span>
-                          )}
+                              <span style={{ color: "red" }}>
+                                {validErrors.studentFather}
+                              </span>
+                            )}
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -1169,7 +1190,9 @@ const StudentForm = () => {
                             />
                           </div>
                           {validErrors.dob && (
-                            <span style={{ color: "red" }}>{validErrors.dob}</span>
+                            <span style={{ color: "red" }}>
+                              {validErrors.dob}
+                            </span>
                           )}
                         </div>
                         <div class="col-md-6">
@@ -1223,7 +1246,9 @@ const StudentForm = () => {
                             </div>
                           </div>
                           {validErrors.gender && (
-                            <span style={{ color: "red" }}>{validErrors.gender}</span>
+                            <span style={{ color: "red" }}>
+                              {validErrors.gender}
+                            </span>
                           )}
                         </div>
 
@@ -1265,7 +1290,9 @@ const StudentForm = () => {
                             </select>
                           </div>
                           {validErrors.country && (
-                            <span style={{ color: "red" }}>{validErrors.country}</span>
+                            <span style={{ color: "red" }}>
+                              {validErrors.country}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -1306,8 +1333,10 @@ const StudentForm = () => {
                           />
                         </div>
                         {validErrors.address && (
-                            <span style={{ color: "red" }}>{validErrors.address}</span>
-                          )}
+                          <span style={{ color: "red" }}>
+                            {validErrors.address}
+                          </span>
+                        )}
                       </div>
 
                       <div class="col-md-6">
@@ -1324,8 +1353,10 @@ const StudentForm = () => {
                           />
                         </div>
                         {validErrors.city && (
-                            <span style={{ color: "red" }}>{validErrors.city}</span>
-                          )}
+                          <span style={{ color: "red" }}>
+                            {validErrors.city}
+                          </span>
+                        )}
                       </div>
 
                       <div class="col-md-6">
@@ -1341,8 +1372,10 @@ const StudentForm = () => {
                           />
                         </div>
                         {validErrors.mobile && (
-                            <span style={{ color: "red" }}>{validErrors.mobile}</span>
-                          )}
+                          <span style={{ color: "red" }}>
+                            {validErrors.mobile}
+                          </span>
+                        )}
                       </div>
 
                       <div class="col-md-6">
@@ -1358,8 +1391,10 @@ const StudentForm = () => {
                           />
                         </div>
                         {validErrors.parentMobile && (
-                            <span style={{ color: "red" }}>{validErrors.parentMobile}</span>
-                          )}
+                          <span style={{ color: "red" }}>
+                            {validErrors.parentMobile}
+                          </span>
+                        )}
                       </div>
 
                       <div class="col-md-6">
@@ -1376,11 +1411,11 @@ const StudentForm = () => {
                           />
                         </div>
                         {validErrors.email && (
-                            <span style={{ color: "red" }}>{validErrors.email}</span>
+                          <span style={{ color: "red" }}>
+                            {validErrors.email}
+                          </span>
                         )}
                       </div>
-
-
                     </div>
                     <ul className="list-inline pull-right">
                       <li>
@@ -1415,7 +1450,7 @@ const StudentForm = () => {
                     <h4 className="">Educational Details</h4>
                     <div className="row">
                       {/* Step 3 form fields */}
-                      <div class="col-md-6">
+                      {/* <div class="col-md-6">
                         <div class="form-group">
                           <label>Select Class *</label>
                           <select
@@ -1440,10 +1475,10 @@ const StudentForm = () => {
                             <option value="PG" className="option-grp">
                               PG (Post Graduate)
                             </option>
-                          </select>
+                          </select> */}
                           {/* <button type="button" className="btn btn-primary form-control" onClick={handleAddCourse} value={selectClass} onChange={handleClassChange}>Add Class</button> */}
-                        </div>
-                      </div>
+                        {/* </div>
+                      </div> */}
                       {/* 10th information */}
                       {/* <div className="row">
                             <div class="col-md-6">
@@ -1546,14 +1581,229 @@ const StudentForm = () => {
                               </div>
                             </div>
                           </div> */}
-                      {selectClass && (
+
+                      <div className="row mt-5">
+                        <h5 className="text-primary">10th Details</h5>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>School Name *</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              name="school"
+                              placeholder=""
+                              id="school"
+                              onChange={handleChange}
+                              value={inputData.school}
+                            />
+                          </div>
+                          {/* {validErrors.school && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.school}
+                            </span>
+                          )} */}
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Board *</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              name="board"
+                              id="board"
+                              placeholder=""
+                              onChange={handleChange}
+                              value={inputData.board}
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label htmlFor="">Passing Year *</label>
+                            <input
+                              type="text"
+                              name="passingyear"
+                              id="passingyear"
+                              placeholder=""
+                              className="form-control"
+                              onChange={handleChange}
+                              value={inputData.passingyear}
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Subject *</label>
+                            <select
+                              name="subject"
+                              id="subject"
+                              className="form-control"
+                              onChange={handleChange}
+                              value={inputData.subject}
+                            >
+                              <option value="other" selected>
+                                --select--
+                              </option>
+                              <option value="Math">Mathematics</option>
+                              <option value="Science">Science</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Percentage *</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              name="percentage"
+                              placeholder=""
+                              id="percentage"
+                              onChange={handleChange}
+                              value={inputData.percentage}
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>10th Marksheet *</label>
+                            <input
+                              class="form-control"
+                              type="file"
+                              name="tenthMarksheet"
+                              placeholder=""
+                              id="tenthMarksheet"
+                              onChange={handleChange}
+                              value={inputData.tenthMarksheet}
+                            />
+                          </div>
+                        </div>
+                        {/* <div className="col-md-6 add-btn-main">
+                          <div className="form-group">
+                            <button
+                              type="submit"
+                              onClick={handleAddCourse}
+                              className="mt-4 text-align-center Add-btn"
+                            >
+                              <FaPlus /> ADD Class
+                            </button>
+                          </div>
+                        </div> */}
+                      </div>
+
+                      <div className="row mt-5">
+                        <h5 className="text-primary">12th Details</h5>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>College Name *</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              name="collegeName"
+                              placeholder=""
+                              id="collegeName"
+                              onChange={handleChange}
+                              value={inputData.collegeName}
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Board *</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              name="collegeBoard"
+                              placeholder=""
+                              id="collegeBoard"
+                              onChange={handleChange}
+                              value={inputData.collegeBoard}
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label htmlFor="">Passing Year *</label>
+                            <input
+                              type="text"
+                              name="collegePassingYear"
+                              id="collegePassingYear"
+                              placeholder=""
+                              className="form-control"
+                              onChange={handleChange}
+                              value={inputData.collegePassingYear}
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Subject *</label>
+                            <select
+                              name="collegeSubject"
+                              id="collegeSubject"
+                              className="form-control"
+                              onChange={handleChange}
+                              value={inputData.collegeSubject}
+                            >
+                              <option value="NaN" selected>
+                                --select--
+                              </option>
+                              <option value="PCM">
+                                Physics/Chemistry/Math
+                              </option>
+                              <option value="chem">Chemistry</option>
+                              <option value="math">Mathematics</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Percentage *</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              name="collegePercentage"
+                              id="collegePercentage"
+                              placeholder=""
+                              onChange={handleChange}
+                              value={inputData.collegePercentage}
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>12th Marksheet *</label>
+                            <input
+                              class="form-control"
+                              type="file"
+                              name="twelfthMarksheet"
+                              placeholder=""
+                              id="twelfthMarksheet"
+                              onChange={handleChange}
+                              value={inputData.twelfththMarksheet}
+                            />
+                          </div>
+                        </div>
+                        {/* <div className="col-md-6 add-btn-main">
+                          <div className="form-group">
+                            <button
+                              type="submit"
+                              onClick={handleAddCourse}
+                              className="mt-4 text-align-center Add-btn"
+                            >
+                              <FaPlus /> ADD Class
+                            </button>
+                          </div>
+                        </div> */}
+                      </div>
+
+                      {/* {selectClass && (
                         <>
-                          {renderLabel()}
-                          {/* <div className='col-md-6 add-btn-main'>
+                          {renderLabel()} */}
+                      {/* <div className='col-md-6 add-btn-main'>
                                                             <button type="button" className="Add-btn" onClick={handleAddCourse}>Add Class</button>
                                                             </div> */}
 
-                          {/* <div className="col-md-6 add-btn-main">
+                      {/* <div className="col-md-6 add-btn-main">
                             <div className="form-group">
                               <button
                                 type="submit"
@@ -1564,8 +1814,8 @@ const StudentForm = () => {
                               </button>
                             </div>
                           </div> */}
-                        </>
-                      )}
+                      {/* </> */}
+                      {/* )} */}
                       {/* <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>School / College Name *</label> 
