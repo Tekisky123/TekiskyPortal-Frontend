@@ -15,10 +15,6 @@ const StudentForm = () => {
   // const [selectClass, setSelectClass] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const handleStepChange = (newStep) => {
-    setStep(newStep);
-  };
-
   const [inputData, setInputData] = useState({
     studentName: "",
     studentFather: "",
@@ -42,13 +38,111 @@ const StudentForm = () => {
     collegeSubject: "",
     collegePercentage: "",
     college: "",
-    twelfththMarksheet: "",
+    twelfthMarksheet: "",
   });
+  
+  //step change
+  const handleStepChange = (newStep) => {
+    // setStep(newStep);
+    const validErrors = {};
+    // Validation logic based on the current step
+    if (step === 1) {
+      // Validation for Step 1 fields
+      if (!inputData.studentName.trim()) {
+        validErrors.studentName = "Please enter student name";
+      }
+      if (!inputData.studentFather.trim()) {
+        validErrors.studentFather = "Please enter father's name";
+      }
+      if (!inputData.dob) {
+        validErrors.dob = "Please select date of birth";
+      }
+      if (!inputData.gender) {
+        validErrors.gender = "Please select gender";
+      }
+      if (!inputData.country || inputData.country === "NaN") {
+        validErrors.country = "Please select country";
+      }
+    } else if (step === 2) {
+      // Validation for Step 2 fields
+      if (!inputData.address.trim()) {
+        validErrors.address = "Please enter address";
+      }
+      if (!inputData.city.trim()) {
+        validErrors.city = "Please enter city/town";
+      }
+      if (!inputData.mobile.trim()) {
+        validErrors.mobile = "Mobile no. is required";
+      } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.mobile)) {
+          validErrors.mobile = "Mobile no. is invalid";
+      }
+      
+      if (!inputData.parentMobile.trim()) {
+      validErrors.parentMobile = "Mobile no. is required";
+      } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.parentMobile)) {
+        validErrors.parentMobile = "Mobile no. is invalid";
+      }
+      if (!inputData.email.trim()) {
+        validErrors.email = "Please enter email";
+      } else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
+        validErrors.email = "Please enter a valid email address";
+      }
+      }
+      else if (step === 3) {
+        // Validation for Step 3 fields
+        if (!inputData.school.trim()) {
+          validErrors.school = "School Name is required";
+        }
+        if (!inputData.board.trim()) {
+          validErrors.board = "Board is required";
+        }
+        if (!inputData.passingyear.trim()) {
+          validErrors.passingyear = "Passing year is required";
+        }
+        if (!inputData.subject.trim()) {
+          validErrors.subject = "select subject";
+        }
+        if (!inputData.percentage.trim()) {
+          validErrors.percentage = "Percentage is required (%)";
+        }
+        if (!inputData.tenthMarksheet.trim()) {
+          validErrors.tenthMarksheet = "*Uplaod Marksheet";
+        }
+    
+        //12th details
+        if (!inputData.collegeName.trim()) {
+          validErrors.collegeName = "College Name is required";
+        }
+        if (!inputData.collegeBoard.trim()) {
+          validErrors.collegeBoard = "Board is required";
+        }
+        if (!inputData.collegePassingYear.trim()) {
+          validErrors.collegePassingYear = "Passing year is required";
+        }
+        if (!inputData.collegeSubject.trim()) {
+          validErrors.collegeSubject = "select subject";
+        }
+        if (!inputData.collegePercentage.trim()) {
+          validErrors.collegePercentage = "Percentage is required (%)";
+        }
+        if (!inputData.twelfthMarksheet.trim()) {
+          validErrors.twelfthMarksheet = "*Uplaod Marksheet";
+        }
+      }
 
+    if (Object.keys(validErrors).length === 0) {
+      // Proceed to the next step only if there are no errors
+      setValidErrors({});
+      setStep(newStep);
+    } else {
+      // If there are errors, display them
+      setValidErrors(validErrors);
+    }
+  };
   //next step function
   const handleNextStep = (e) => {
     e.preventDefault();
-    setStep(step + 1);
+    // setStep(step + 1);
 
     console.log("next step");
     console.log(inputData);
@@ -60,89 +154,186 @@ const StudentForm = () => {
     //     } else {
     //         setErrors(errors);
     //     }
-    const isValid = validateForm();
-    if (isValid) {
-      // Proceed to the next step
-      alert("Next Step");
-      // For example:
+    // const isValid = validateForm();
+    // if (isValid) {
+    //   // Proceed to the next step
+    //   alert("Next Step");
+    //   // For example:
+    //   setStep(step + 1);
+    // } else {
+    //   // Form has errors, do not proceed
+    // }
+
+    const validErrors = {};
+    // Validation logic to check if all fields are filled
+    if (!inputData.studentName.trim()) {
+      validErrors.studentName = "Please enter student name";
+    }
+    if (!inputData.studentFather.trim()) {
+      validErrors.studentFather = "Please enter father's name";
+    }
+    if (!inputData.dob) {
+      validErrors.dob = "Please select date of birth";
+    }
+    if (!inputData.gender) {
+      validErrors.gender = "Please select gender";
+    }
+    if (!inputData.country || inputData.country === "NaN") {
+      validErrors.country = "Please select country";
+    }
+
+    else if (step === 2) {
+      if (!inputData.address.trim()) {
+        validErrors.address = "Please enter address";
+      }
+      if (!inputData.city.trim()) {
+        validErrors.city = "Please enter city/town";
+      }
+      if (!inputData.mobile.trim()) {
+        validErrors.mobile = "Mobile no. is required";
+      } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.mobile)) {
+          validErrors.mobile = "Mobile no. is invalid";
+      }
+      
+      if (!inputData.parentMobile.trim()) {
+      validErrors.parentMobile = "Mobile no. is required";
+      } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.parentMobile)) {
+        validErrors.parentMobile = "Mobile no. is invalid";
+      }
+
+      if (!inputData.email.trim()) {
+        validErrors.email = "Please enter email";
+      } else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
+        validErrors.email = "Please enter a valid email address";
+      }
+    }
+
+    else if (step === 3){
+      if (!inputData.school.trim()) {
+        validErrors.school = "School Name is required";
+      }
+      if (!inputData.board.trim()) {
+        validErrors.board = "Board is required";
+      } 
+      if (!inputData.passingyear.trim()) {
+        validErrors.passingyear = "Passing year is required";
+      } 
+      if (!inputData.subject.trim()) {
+        validErrors.subject = "select subject";
+      }
+      if (!inputData.percentage.trim()) {
+        validErrors.percentage = "Percentage is required (%)";
+      }
+      if (!inputData.tenthMarksheet.trim()) {
+        validErrors.tenthMarksheet = "*Uplaod Marksheet";
+      }
+  
+      //12th details
+      if (!inputData.collegeName.trim()) {
+        validErrors.collegeName = "College Name is required";
+      }
+      if (!inputData.collegeBoard.trim()) {
+        validErrors.collegeBoard = "Board is required";
+      }
+      if (!inputData.collegePassingYear.trim()) {
+        validErrors.collegePassingYear = "Passing year is required";
+      }
+      if (!inputData.collegeSubject.trim()) {
+        validErrors.collegeSubject = "select subject";
+      }
+      if (!inputData.collegePercentage.trim()) {
+        validErrors.collegePercentage = "Percentage is required (%)";
+      }
+      if (!inputData.twelfthMarksheet.trim()) {
+        validErrors.twelfthMarksheet = "*Uplaod Marksheet";
+      }
+    }
+
+    if (Object.keys(validErrors).length === 0) {
+      // Proceed to next step only if there are no errors
+      setValidErrors({});
       setStep(step + 1);
     } else {
-      // Form has errors, do not proceed
+      // If there are errors, display them
+      setValidErrors(validErrors);
     }
+
+
+
   };
 
-  const validateForm = () => {
-    let validErrors = {};
-    let isValid = true;
+  // const validateForm = () => {
+  //   let validErrors = {};
+  //   let isValid = true;
 
-    // Validation for studentName
-    if (!inputData.studentName.trim()) {
-      validErrors.studentName = "Student name is required";
-      isValid = false;
-    }
+  //   // Validation for studentName
+  //   if (!inputData.studentName.trim()) {
+  //     validErrors.studentName = "Student name is required";
+  //     isValid = false;
+  //   }
 
-    // Validation for studentFather
-    if (!inputData.studentFather.trim()) {
-      validErrors.studentFather = "Father's name is required";
-      isValid = false;
-    }
+  //   // Validation for studentFather
+  //   if (!inputData.studentFather.trim()) {
+  //     validErrors.studentFather = "Father's name is required";
+  //     isValid = false;
+  //   }
 
-    // Validation for dob
-    if (!inputData.dob) {
-      validErrors.dob = "Date of birth is required";
-      isValid = false;
-    }
+  //   // Validation for dob
+  //   if (!inputData.dob) {
+  //     validErrors.dob = "Date of birth is required";
+  //     isValid = false;
+  //   }
 
-    // Validation for gender
-    if (!inputData.gender) {
-      validErrors.gender = "Gender is required";
-      isValid = false;
-    }
+  //   // Validation for gender
+  //   if (!inputData.gender) {
+  //     validErrors.gender = "Gender is required";
+  //     isValid = false;
+  //   }
 
-    // Validation for country
-    if (!inputData.country === "NaN" || inputData.country === "") {
-      validErrors.country = "Please select a country";
-      isValid = false;
-    }
+  //   // Validation for country
+  //   if (!inputData.country === "NaN" || inputData.country === "") {
+  //     validErrors.country = "Please select a country";
+  //     isValid = false;
+  //   }
 
-    if (!inputData.address.trim()) {
-      validErrors.address = "Address is required";
-      isValid = false;
-    }
-    if (!inputData.city.trim()) {
-      validErrors.city = "city's name is required";
-      isValid = false;
-    }
+  //   if (!inputData.address.trim()) {
+  //     validErrors.address = "Address is required";
+  //     isValid = false;
+  //   }
+  //   if (!inputData.city.trim()) {
+  //     validErrors.city = "city's name is required";
+  //     isValid = false;
+  //   }
 
-    if (!inputData.mobile.trim() === "") {
-      validErrors.mobile = "Mobile no. is required";
-      isValid = false;
-    } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.mobile)) {
-      validErrors.mobile = "Mobile no. is invalid";
-    }
+  //   if (!inputData.mobile.trim() === "") {
+  //     validErrors.mobile = "Mobile no. is required";
+  //     isValid = false;
+  //   } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.mobile)) {
+  //     validErrors.mobile = "Mobile no. is invalid";
+  //   }
 
-    if (!inputData.parentMobile.trim() === "") {
-      validErrors.parentMobile = "Mobile no. is required";
-      isValid = false;
-    } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.parentMobile)) {
-      validErrors.parentMobile = "Mobile no. is invalid";
-    }
+  //   if (!inputData.parentMobile.trim() === "") {
+  //     validErrors.parentMobile = "Mobile no. is required";
+  //     isValid = false;
+  //   } else if (!/^\+?[1-9][0-9]{7,14}$/.test(inputData.parentMobile)) {
+  //     validErrors.parentMobile = "Mobile no. is invalid";
+  //   }
 
-    if (!inputData.email.trim() === "") {
-      validErrors.email = "email is required";
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
-      validErrors.email = "Email is invalid";
-    }
+  //   if (!inputData.email.trim() === "") {
+  //     validErrors.email = "email is required";
+  //     isValid = false;
+  //   } else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
+  //     validErrors.email = "Email is invalid";
+  //   }
 
-    if (!inputData.school.trim()) {
-      validErrors.school = "School Name is required";
-      isValid = false;
-    }
+  //   if (!inputData.school.trim()) {
+  //     validErrors.school = "School Name is required";
+  //     isValid = false;
+  //   }
 
-    setValidErrors(validErrors);
-    return isValid;
-  };
+  //   setValidErrors(validErrors);
+  //   return isValid;
+  // };
 
   //back step function
   const handlePrevStep = () => {
@@ -771,6 +962,19 @@ const StudentForm = () => {
               )}
             </div>
           </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">12th Marksheet :</label>
+              <input
+                type="file"
+                value={inputData.twelfthMarksheet}
+                className="form-control"
+              />
+              {errors.twelfthMarksheet && (
+                <span style={{ color: "red" }}>{errors.twelfthMarksheet}</span>
+              )}
+            </div>
+          </div>
         </div>
         <div className="col-md-6">
           <div className="form-group">
@@ -984,6 +1188,12 @@ const StudentForm = () => {
     } else {
       newErrors.percentage = "";
     }
+    if (inputData.tenthMarksheet.trim() === "") {
+      newErrors.tenthMarksheet = "Uplaod Marksheet";
+      valid = false;
+    } else {
+      newErrors.tenthMarksheet = "";
+    }
 
     //12th details
     if (inputData.collegeName.trim() === "") {
@@ -1015,6 +1225,12 @@ const StudentForm = () => {
       valid = false;
     } else {
       newErrors.collegePercentage = "";
+    }
+    if (inputData.twelfthMarksheet.trim() === "") {
+      newErrors.twelfthMarksheet = "Upload Marksheet";
+      valid = false;
+    } else {
+      newErrors.twelfthMarksheet = "";
     }
 
     setErrors(newErrors);
@@ -1597,11 +1813,11 @@ const StudentForm = () => {
                               value={inputData.school}
                             />
                           </div>
-                          {/* {validErrors.school && (
+                          {validErrors.school && (
                             <span style={{ color: "red" }}>
                               {validErrors.school}
                             </span>
-                          )} */}
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1616,6 +1832,11 @@ const StudentForm = () => {
                               value={inputData.board}
                             />
                           </div>
+                          {validErrors.board && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.board}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1630,6 +1851,11 @@ const StudentForm = () => {
                               value={inputData.passingyear}
                             />
                           </div>
+                          {validErrors.passingyear && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.passingyear}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1648,6 +1874,11 @@ const StudentForm = () => {
                               <option value="Science">Science</option>
                             </select>
                           </div>
+                          {validErrors.subject && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.subject}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1662,6 +1893,11 @@ const StudentForm = () => {
                               value={inputData.percentage}
                             />
                           </div>
+                          {validErrors.percentage && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.percentage}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1676,6 +1912,11 @@ const StudentForm = () => {
                               value={inputData.tenthMarksheet}
                             />
                           </div>
+                          {validErrors.tenthMarksheet && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.tenthMarksheet}
+                            </span>
+                          )}
                         </div>
                         {/* <div className="col-md-6 add-btn-main">
                           <div className="form-group">
@@ -1705,6 +1946,11 @@ const StudentForm = () => {
                               value={inputData.collegeName}
                             />
                           </div>
+                          {validErrors.collegeName && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.collegeName}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1719,6 +1965,11 @@ const StudentForm = () => {
                               value={inputData.collegeBoard}
                             />
                           </div>
+                          {validErrors.collegeBoard && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.collegeBoard}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1733,6 +1984,11 @@ const StudentForm = () => {
                               value={inputData.collegePassingYear}
                             />
                           </div>
+                          {validErrors.collegePassingYear && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.collegePassingYear}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1754,6 +2010,11 @@ const StudentForm = () => {
                               <option value="math">Mathematics</option>
                             </select>
                           </div>
+                          {validErrors.collegeSubject && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.collegeSubject}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1768,6 +2029,11 @@ const StudentForm = () => {
                               value={inputData.collegePercentage}
                             />
                           </div>
+                          {validErrors.collegePercentage && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.collegePercentage}
+                            </span>
+                          )}
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -1776,12 +2042,17 @@ const StudentForm = () => {
                               class="form-control"
                               type="file"
                               name="twelfthMarksheet"
-                              placeholder=""
+                              placeholder="select file"
                               id="twelfthMarksheet"
                               onChange={handleChange}
-                              value={inputData.twelfththMarksheet}
+                              value={inputData.twelfthMarksheet}
                             />
                           </div>
+                          {validErrors.twelfthMarksheet && (
+                            <span style={{ color: "red" }}>
+                              {validErrors.twelfthMarksheet}
+                            </span>
+                          )}
                         </div>
                         {/* <div className="col-md-6 add-btn-main">
                           <div className="form-group">
