@@ -885,6 +885,19 @@ const StudentForm = () => {
               )}
             </div>
           </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="">10th Marksheet :</label>
+              <input
+                type="text"
+                value={inputData.tenthMarksheet}
+                className="form-control"
+              />
+              {errors.tenthMarksheet && (
+                <span style={{ color: "red" }}>{errors.tenthMarksheet}</span>
+              )}
+            </div>
+          </div>
 
           {/* 12th preview form */}
 
@@ -966,7 +979,7 @@ const StudentForm = () => {
             <div className="form-group">
               <label htmlFor="">12th Marksheet :</label>
               <input
-                type="file"
+                type="text"
                 value={inputData.twelfthMarksheet}
                 className="form-control"
               />
@@ -993,7 +1006,19 @@ const StudentForm = () => {
   };
 
   const downloadPreview = () => {
-    const content = `Name: ${inputData.studentName}\nEmail: ${inputData.email}\ndob: ${inputData.dob}\n`;
+    const content = 
+    `
+    Name : ${inputData.studentName}\n
+    Father Name : ${inputData.studentFather}\n
+    DOB : ${inputData.dob}\n
+    Gender : ${inputData.gender}\n
+    Country : ${inputData.country}\n
+    Address : ${inputData.address}\n
+    City : ${inputData.city}\n
+    Mobile No.: ${inputData.mobile}\n
+    Guardian Mobile no.: ${inputData.parentMobile}\n
+    Email : ${inputData.email}\n
+    School Name : ${inputData.school}\n`;
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -1424,7 +1449,7 @@ const StudentForm = () => {
                                   id="male"
                                   onChange={handleChange}
                                   value="male"
-                                  checked={inputData === "male"}
+                                  // checked={inputData === "male"}
                                 />
                                 <label
                                   htmlFor="male"
@@ -1442,7 +1467,7 @@ const StudentForm = () => {
                                   id="female"
                                   onChange={handleChange}
                                   value="female"
-                                  checked={inputData === "female"}
+                                  // checked={inputData === "female"}
                                 />
                                 <label htmlFor="female">Female</label>
                               </div>
@@ -1455,7 +1480,7 @@ const StudentForm = () => {
                                   id="other"
                                   onChange={handleChange}
                                   value="other"
-                                  checked={inputData === "other"}
+                                  // checked={inputData === "other"}
                                 />
                                 <label htmlFor="other">Other</label>
                               </div>
@@ -1473,10 +1498,12 @@ const StudentForm = () => {
                             <label>Country *</label>
                             <select
                               name="country"
-                              class="form-control"
+                              // class="form-control"
+                              className="form-select"
                               id="country"
                               onChange={handleChange}
                               value={inputData.country}
+                              aria-label="Default select example"
                             >
                               <option
                                 value="NaN"
@@ -1486,9 +1513,9 @@ const StudentForm = () => {
                                 -- select --
                               </option>
                               <option value="INDIA" className="option-grp">
-                                India
+                                INDIA
                               </option>
-                              <option value="US" className="option-grp">
+                              {/* <option value="US" className="option-grp">
                                 USA
                               </option>
                               <option value="RS" className="option-grp">
@@ -1502,7 +1529,7 @@ const StudentForm = () => {
                               </option>
                               <option value="NO" className="option-grp">
                                 Norway
-                              </option>
+                              </option> */}
                             </select>
                           </div>
                           {validErrors.country && (
